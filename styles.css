@@ -59,7 +59,7 @@ button {
 
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: none;
   margin-inline: auto;
   padding-inline: clamp(20px, 4vw, 48px);
 }
@@ -181,6 +181,10 @@ button {
   padding-inline: 0;
   padding-block: 28px 48px;
   min-height: auto;
+  background:
+    radial-gradient(circle at 74% 22%, rgba(78, 205, 196, 0.18), transparent 28rem),
+    radial-gradient(circle at 18% 44%, rgba(91, 44, 130, 0.12), transparent 34rem),
+    #f7f8fb;
   isolation: isolate;
 }
 
@@ -194,7 +198,7 @@ button {
   position: relative;
   overflow: hidden;
   min-height: min(760px, calc(100dvh - 56px));
-  padding: 28px 36px 48px;
+  padding: 28px 0 48px;
   background: transparent;
   color: #080c2d;
 }
@@ -220,6 +224,8 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
+  max-width: 1440px;
+  margin-inline: auto;
 }
 
 .nav-toggle {
@@ -312,6 +318,8 @@ button {
   grid-template-columns: minmax(0, 0.92fr) minmax(330px, 1.08fr);
   gap: 42px;
   align-items: center;
+  max-width: 1440px;
+  margin-inline: auto;
   min-height: min(620px, calc(100dvh - 170px));
 }
 
@@ -1509,6 +1517,8 @@ input:focus {
   grid-template-columns: 1fr;
   gap: 28px;
   align-items: center;
+  max-width: 1280px;
+  margin-inline: auto;
 }
 
 .footer {
@@ -1523,6 +1533,8 @@ input:focus {
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+  max-width: 1280px;
+  margin-inline: auto;
 }
 
 .pricing-hero,
@@ -1695,7 +1707,7 @@ details p {
 
   .hero {
     padding-block: 20px 32px;
-    padding-inline: 16px;
+    padding-inline: 0;
   }
 
   .hero-card {
@@ -1859,7 +1871,7 @@ details p {
     font-size: 0.72rem;
   }
 
-  .pricing-preview {
+  .pricing-preview-inner {
     padding: 24px 0;
     grid-template-columns: 1fr;
     gap: 20px;
@@ -1873,13 +1885,13 @@ details p {
     padding: 22px;
   }
 
-  .final-cta {
+  .final-cta-inner {
     padding: 24px 0;
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
-  .footer {
+  .footer-inner {
     flex-direction: column;
     align-items: center;
     gap: 18px;
@@ -2153,7 +2165,7 @@ details p {
     font-size: 0.82rem;
   }
 
-  .final-cta {
+  .final-cta-inner {
     padding: 24px;
   }
 
