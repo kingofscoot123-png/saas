@@ -109,8 +109,18 @@ const initRoadmap = () => {
 
     const nextStage = stages[index];
     const textTargets = [title, description, link].filter(Boolean);
+    const updateStageContent = () => {
+      title.textContent = nextStage.title;
+      description.textContent = nextStage.description;
 
-    if (window.gsap) {
+      if (link) {
+        link.textContent = nextStage.cta;
+      }
+    };
+    const isMobile = window.matchMedia("(max-width: 900px)").matches;
+
+    if (window.gsap && !isMobile) {
+      gsap.killTweensOf(textTargets);
       gsap
         .timeline()
         .to(textTargets, {
@@ -119,14 +129,7 @@ const initRoadmap = () => {
           duration: 0.18,
           stagger: 0.035,
           ease: "power2.out",
-          onComplete: () => {
-            title.textContent = nextStage.title;
-            description.textContent = nextStage.description;
-
-            if (link) {
-              link.textContent = nextStage.cta;
-            }
-          },
+          onComplete: updateStageContent,
         })
         .fromTo(
           textTargets,
@@ -140,12 +143,7 @@ const initRoadmap = () => {
           }
         );
     } else {
-      title.textContent = nextStage.title;
-      description.textContent = nextStage.description;
-
-      if (link) {
-        link.textContent = nextStage.cta;
-      }
+      updateStageContent();
     }
   };
 
@@ -252,6 +250,134 @@ const initRoadmap = () => {
 
 window.addEventListener("load", initRoadmap);
 
+const initTiltCards = () => {
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    return;
+  }
+
+  const cards = document.querySelectorAll(
+    ".pricing-preview-card, .price-card, .card, .included-list, .comparison-grid > *, .next-steps > *, .voice-demo-card"
+  );
+
+  cards.forEach((card) => {
+    card.classList.add("tilt-card");
+
+    const updateTilt = (event) => {
+      const rect = card.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      const rotateX = (0.5 - y) * 7;
+      const rotateY = (x - 0.5) * 7;
+
+      card.style.setProperty("--tilt-x", `${rotateX.toFixed(2)}deg`);
+      card.style.setProperty("--tilt-y", `${rotateY.toFixed(2)}deg`);
+      card.style.setProperty("--glow-x", `${(x * 100).toFixed(1)}%`);
+      card.style.setProperty("--glow-y", `${(y * 100).toFixed(1)}%`);
+      card.classList.add("is-tilting");
+    };
+
+    const resetTilt = () => {
+      card.style.setProperty("--tilt-x", "0deg");
+      card.style.setProperty("--tilt-y", "0deg");
+      card.classList.remove("is-tilting");
+    };
+
+    card.addEventListener("pointermove", updateTilt, { passive: true });
+    card.addEventListener("pointerleave", resetTilt);
+  });
+};
+
+const initVoiceDemo = () => {
+  const card = document.querySelector(".voice-demo-card");
+  const tabs = document.querySelectorAll(".voice-demo-tab");
+
+  if (!card || !tabs.length) {
+    return;
+  }
+
+  const channelLabel = card.querySelector(".voice-demo-channel-label");
+  const timer = card.querySelector(".voice-demo-timer");
+  const messages = card.querySelectorAll(".demo-message");
+  const footerIntent = card.querySelector(".voice-demo-footer span");
+  const footerStatus = card.querySelector(".voice-demo-footer strong");
+  const demos = {
+    call: {
+      channel: "שיחה נכנסת",
+      time: "00:12",
+      messages: [
+        "היי, אפשר לקבוע פגישה למחר?",
+        "בטח. באיזו שעה יהיה לך הכי נוח?",
+        "בסביבות 10:30.",
+      ],
+      intent: "זיהוי כוונה: תיאום פגישה",
+      status: "CRM מסונכרן",
+    },
+    whatsapp: {
+      channel: "שיחת WhatsApp",
+      time: "מחובר",
+      messages: [
+        "היי, אתם עדיין פתוחים?",
+        "הנציגים סיימו להיום, אבל אני כאן ואשמח לעזור.",
+        "מעולה, אשמח לקבל הצעת מחיר.",
+      ],
+      intent: "זיהוי כוונה: ליד חדש",
+      status: "פרטים נשמרו",
+    },
+  };
+  let activeMode = "call";
+  let autoSwitch;
+
+  const renderDemo = (mode) => {
+    const demo = demos[mode];
+
+    if (!demo || mode === activeMode && card.dataset.demoReady === "true") {
+      return;
+    }
+
+    activeMode = mode;
+    card.dataset.demoActive = mode;
+    card.dataset.demoReady = "true";
+    messages.forEach((message) => message.classList.add("is-changing"));
+
+    window.setTimeout(() => {
+      channelLabel.textContent = demo.channel;
+      timer.textContent = demo.time;
+      footerIntent.textContent = demo.intent;
+      footerStatus.textContent = demo.status;
+      messages.forEach((message, index) => {
+        message.textContent = demo.messages[index];
+        message.classList.remove("is-changing");
+      });
+    }, 220);
+
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.demoMode === mode;
+      tab.classList.toggle("is-active", isActive);
+      tab.setAttribute("aria-selected", String(isActive));
+    });
+  };
+
+  const restartAutoSwitch = () => {
+    window.clearInterval(autoSwitch);
+    autoSwitch = window.setInterval(() => {
+      renderDemo(activeMode === "call" ? "whatsapp" : "call");
+    }, 6500);
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      renderDemo(tab.dataset.demoMode);
+      restartAutoSwitch();
+    });
+  });
+
+  card.dataset.demoReady = "true";
+  restartAutoSwitch();
+};
+
+initTiltCards();
+initVoiceDemo();
+
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/moeanejn";
 
 const handleLeadSubmit = async (event) => {
@@ -308,33 +434,160 @@ document.querySelectorAll(".lead-form").forEach((form) => {
 const navToggle = document.querySelector(".nav-toggle");
 const heroNav = document.querySelector("#hero-nav");
 
+const setNavState = (isOpen) => {
+  heroNav.classList.toggle("is-open", isOpen);
+  document.body.classList.toggle("nav-open", isOpen);
+  navToggle.setAttribute("aria-expanded", String(isOpen));
+  navToggle.setAttribute("aria-label", isOpen ? "סגור תפריט" : "פתח תפריט");
+};
+
 if (navToggle && heroNav) {
   navToggle.addEventListener("click", () => {
-    const isOpen = heroNav.classList.toggle("is-open");
-    navToggle.setAttribute("aria-expanded", String(isOpen));
-    navToggle.setAttribute("aria-label", isOpen ? "סגור תפריט" : "פתח תפריט");
+    setNavState(!heroNav.classList.contains("is-open"));
   });
 
   heroNav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
-      heroNav.classList.remove("is-open");
-      navToggle.setAttribute("aria-expanded", "false");
-      navToggle.setAttribute("aria-label", "פתח תפריט");
+      setNavState(false);
     });
   });
 
-  document.addEventListener("click", (event) => {
-    if (
-      heroNav.classList.contains("is-open") &&
-      !heroNav.contains(event.target) &&
-      !navToggle.contains(event.target)
-    ) {
-      heroNav.classList.remove("is-open");
-      navToggle.setAttribute("aria-expanded", "false");
-      navToggle.setAttribute("aria-label", "פתח תפריט");
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && heroNav.classList.contains("is-open")) {
+      setNavState(false);
     }
   });
 }
+
+const siteHeader = document.querySelector("#site-header");
+
+if (siteHeader) {
+  const onScroll = () => {
+    siteHeader.classList.toggle("is-scrolled", window.scrollY > 8);
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+}
+
+const initCompareToggle = () => {
+  const card = document.querySelector(".compare-card");
+
+  if (!card) {
+    return;
+  }
+
+  const buttons = card.querySelectorAll(".compare-toggle-btn");
+  const thumb = card.querySelector(".compare-toggle-thumb");
+  const stage = card.querySelector(".compare-stage");
+
+  const setMode = (mode, activeButton) => {
+    card.dataset.mode = mode;
+
+    if (stage) {
+      stage.dataset.compareActive = mode;
+    }
+
+    buttons.forEach((button) => {
+      const isActive = button === activeButton;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-selected", String(isActive));
+    });
+
+    if (thumb && activeButton) {
+      const first = buttons[0].getBoundingClientRect();
+      const target = activeButton.getBoundingClientRect();
+      thumb.style.transform = `translateX(${target.left - first.left}px)`;
+    }
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      setMode(button.dataset.compare, button);
+    });
+  });
+
+  const initial = card.querySelector(".compare-toggle-btn.is-active") || buttons[0];
+  setMode(initial.dataset.compare, initial);
+  window.addEventListener("resize", () => {
+    const active = card.querySelector(".compare-toggle-btn.is-active") || buttons[0];
+    setMode(active.dataset.compare, active);
+  });
+};
+
+const initFaqAccordion = () => {
+  const items = document.querySelectorAll(".faq-item");
+
+  if (!items.length) {
+    return;
+  }
+
+  const setAnswerHeight = (item) => {
+    const answer = item.querySelector(".faq-answer");
+
+    if (!answer) {
+      return;
+    }
+
+    if (item.hasAttribute("open")) {
+      answer.style.maxHeight = `${answer.scrollHeight}px`;
+    } else {
+      if (answer.style.maxHeight === "none" || answer.style.maxHeight === "") {
+        answer.style.maxHeight = `${answer.scrollHeight}px`;
+      }
+      requestAnimationFrame(() => {
+        answer.style.maxHeight = "0px";
+      });
+    }
+  };
+
+  items.forEach((item) => {
+    const summary = item.querySelector("summary");
+    const answer = item.querySelector(".faq-answer");
+
+    summary.addEventListener("click", (event) => {
+      event.preventDefault();
+      const willOpen = !item.hasAttribute("open");
+
+      items.forEach((other) => {
+        if (other !== item) {
+          other.removeAttribute("open");
+          setAnswerHeight(other);
+        }
+      });
+
+      if (willOpen) {
+        item.setAttribute("open", "");
+      } else {
+        item.removeAttribute("open");
+      }
+
+      setAnswerHeight(item);
+    });
+
+    if (answer) {
+      answer.addEventListener("transitionend", () => {
+        if (item.hasAttribute("open")) {
+          answer.style.maxHeight = "none";
+        }
+      });
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    items.forEach((item) => {
+      if (item.hasAttribute("open")) {
+        const answer = item.querySelector(".faq-answer");
+        if (answer) {
+          answer.style.maxHeight = "none";
+        }
+      }
+    });
+  });
+};
+
+initCompareToggle();
+initFaqAccordion();
 
 const thankYouHeading = document.querySelector(".thank-you h1");
 

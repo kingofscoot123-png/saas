@@ -17,74 +17,79 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <header class="site-header" id="site-header">
+      <div class="site-header-inner">
+        <a class="site-logo" href="./index.html" aria-label="CALLBOT">
+          <img src="./assets/callbot-logo-transparent.png" alt="" />
+          <span>CALLBOT</span>
+        </a>
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="hero-nav"
+          aria-label="פתח תפריט"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <nav class="site-nav" id="hero-nav" aria-label="ניווט מהיר">
+          <a href="./index.html">עמוד הבית</a>
+          <a href="#live-demo">דמו חי</a>
+          <a href="./pricing.html">מחירים</a>
+          <a href="#faq">שאלות נפוצות</a>
+          <a class="site-nav-cta" href="#demo-form">הזמן דמו</a>
+        </nav>
+      </div>
+    </header>
+
     <main class="site-main">
         <section class="hero section">
-          <div class="container hero-inner">
-            <div class="hero-card reveal">
-              <div class="hero-card-shape" aria-hidden="true"></div>
-              <div class="hero-card-nav">
-                <a class="hero-card-logo" href="./index.html" aria-label="CALLBOT">
-                  <img src="./assets/callbot-logo-transparent.png" alt="" />
-                </a>
-                <button
-                  class="nav-toggle"
-                  type="button"
-                  aria-expanded="false"
-                  aria-controls="hero-nav"
-                  aria-label="פתח תפריט"
-                >
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </button>
-                <nav class="hero-card-links" id="hero-nav" aria-label="ניווט מהיר">
-                  <a href="./index.html">עמוד הבית</a>
-                  <a href="#live-demo">דמו חי</a>
-                  <a href="./pricing.html">מחירים</a>
-                  <a href="#demo-form">צור קשר</a>
-                </nav>
+          <div class="hero-glow" aria-hidden="true"></div>
+          <div class="container hero-inner reveal">
+            <div class="hero-content">
+              <div class="hero-badge">
+                <span class="badge-tag">חדש</span>
+                <span>מענה חכם בעברית טבעית</span>
               </div>
+              <h1>העסק שלך פתוח 24/7 בוואטסאפ ובשיחות, בלי לפספס אף לקוח.</h1>
+              <form
+                class="hero-lead-form lead-form"
+                action="https://formspree.io/f/moeanejn"
+                method="POST"
+                aria-label="טופס לידים"
+              >
+                <label>
+                  <span class="sr-only">שם מלא</span>
+                  <input type="text" name="name" placeholder="שם מלא" required autocomplete="name" />
+                </label>
+                <label>
+                  <span class="sr-only">אימייל</span>
+                  <input type="email" name="email" placeholder="name@company.co.il" required autocomplete="email" />
+                </label>
+                <button class="button hero-cta" type="submit">הזמן דמו של 15 דקות</button>
+              </form>
+            </div>
 
-              <div class="hero-card-body">
-                <div class="hero-content">
-                  <div class="hero-badge">
-                    <span class="badge-tag">חדש</span>
-                    <span>תמיכה מלאה בעברית מדוברת</span>
-                  </div>
-                  <h1>העסק שלך לא מפספס שיחות<br />אחרי שעות הפעילות</h1>
-                  <p class="hero-subtitle">
-                    Voice AI שמדבר כמו נציג ישראלי אמיתי, מבין סלנג, מסנן לידים ומתאם
-                    פגישות ישירות ל-CRM שלך.
-                  </p>
-                  <form
-                    class="hero-lead-form lead-form"
-                    action="https://formspree.io/f/moeanejn"
-                    method="POST"
-                    aria-label="טופס לידים"
-                  >
-                    <label>
-                      <span class="sr-only">שם מלא</span>
-                      <input type="text" name="name" placeholder="שם מלא" required autocomplete="name" />
-                    </label>
-                    <label>
-                      <span class="sr-only">אימייל</span>
-                      <input type="email" name="email" placeholder="name@company.co.il" required autocomplete="email" />
-                    </label>
-                    <button class="button hero-cta" type="submit">הזמן דמו של 15 דקות</button>
-                  </form>
-                </div>
-
-                <div class="hero-visual" id="live-demo" aria-label="דמו ויזואלי של CALLBOT">
-                  <div class="hero-robot-wrap">
-                    <img
-                      class="hero-robot-image"
-                      src="./assets/callbot-robot-transparent.png"
-                      alt="רובוט CALLBOT מדבר בטלפון"
-                    />
-                  </div>
-                </div>
+            <div class="hero-visual" id="live-demo" aria-label="דמו ויזואלי של CALLBOT">
+              <div class="hero-robot-wrap">
+                <img
+                  class="hero-robot-image"
+                  src="./assets/cyber-voice-robot-final.png"
+                  alt="רובוט CALLBOT מדבר בטלפון"
+                />
               </div>
             </div>
+          </div>
+        </section>
+
+        <section class="section value-prop-section reveal" aria-label="מה CallBot עושה">
+          <div class="container value-prop-inner">
+            <p class="value-prop-text">
+              נציג Voice AI חכם שמנהל שיחות בעברית טבעית, מסנן לידים ומתאם פגישות ליומן
+              שלך בזמן אמת, בזמן שאתה מתרכז במה שחשוב.
+            </p>
           </div>
         </section>
 
@@ -144,6 +149,155 @@
           </div>
         </section>
 
+        <section class="section voice-demo-section reveal" aria-labelledby="voice-demo-title">
+          <div class="container voice-demo-layout">
+            <div class="voice-demo-copy">
+              <span class="eyebrow">דמו אינטראקטיבי חי</span>
+              <h2 id="voice-demo-title">כך הבוט מטפל בלקוח בזמן אמת</h2>
+              <p>
+                עברו בין שיחת טלפון לוואטסאפ וראו איך הבוט מגיב, אוסף פרטים ומוביל את
+                הלקוח לצעד הבא באופן טבעי.
+              </p>
+              <div class="voice-demo-tabs" role="tablist" aria-label="בחירת ערוץ דמו">
+                <button class="voice-demo-tab is-active" type="button" role="tab" aria-selected="true" data-demo-mode="call">
+                  שיחת טלפון
+                </button>
+                <button class="voice-demo-tab" type="button" role="tab" aria-selected="false" data-demo-mode="whatsapp">
+                  WhatsApp
+                </button>
+              </div>
+            </div>
+
+            <div class="voice-demo-card tilt-card" data-demo-active="call">
+              <span class="tilt-glow" aria-hidden="true"></span>
+              <div class="voice-demo-header">
+                <div class="voice-demo-agent">
+                  <span class="voice-demo-avatar" aria-hidden="true">AI</span>
+                  <div>
+                    <strong>CALLBOT Live</strong>
+                    <span><i aria-hidden="true"></i> פעיל עכשיו</span>
+                  </div>
+                </div>
+                <span class="voice-demo-status">LIVE</span>
+              </div>
+
+              <div class="voice-demo-screen" aria-live="polite">
+                <div class="voice-demo-channel">
+                  <span class="voice-demo-channel-label">שיחה נכנסת</span>
+                  <span class="voice-demo-timer">00:12</span>
+                </div>
+                <div class="voice-demo-messages">
+                  <p class="demo-message demo-message-user">היי, אפשר לקבוע פגישה למחר?</p>
+                  <p class="demo-message demo-message-bot">בטח. באיזו שעה יהיה לך הכי נוח?</p>
+                  <p class="demo-message demo-message-user">בסביבות 10:30.</p>
+                </div>
+                <div class="voice-demo-wave" aria-label="הבוט מדבר">
+                  <span></span><span></span><span></span><span></span><span></span>
+                  <span></span><span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+
+              <div class="voice-demo-footer">
+                <span>זיהוי כוונה: תיאום פגישה</span>
+                <strong>CRM מסונכרן</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section compare-section reveal" aria-labelledby="compare-title">
+          <div class="container compare-inner">
+            <div class="compare-copy">
+              <span class="eyebrow">לפני ואחרי</span>
+              <h2 id="compare-title">איך נראה העסק שלך עם CallBot ובלעדיו</h2>
+              <p>גררו את המתג כדי לראות את ההבדל בין עומס ופספוסים לבין שקט ושליטה מלאה.</p>
+            </div>
+
+            <div class="compare-card tilt-card">
+              <span class="tilt-glow" aria-hidden="true"></span>
+              <div class="compare-toggle" role="tablist" aria-label="מעבר בין מצבים">
+                <button class="compare-toggle-btn is-active" type="button" role="tab" aria-selected="true" data-compare="before">
+                  בלי CallBot
+                </button>
+                <button class="compare-toggle-btn" type="button" role="tab" aria-selected="false" data-compare="after">
+                  עם CallBot
+                </button>
+                <span class="compare-toggle-thumb" aria-hidden="true"></span>
+              </div>
+
+              <div class="compare-stage" data-compare-active="before">
+                <div class="compare-panel compare-panel-before" data-panel="before">
+                  <div class="compare-panel-head">
+                    <span class="compare-tag compare-tag-danger">מצב נוכחי</span>
+                    <span class="compare-time">23:14</span>
+                  </div>
+                  <ul class="compare-list">
+                    <li class="compare-item compare-item-danger">
+                      <span class="compare-dot" aria-hidden="true"></span>
+                      <div>
+                        <strong>שיחה שלא נענתה</strong>
+                        <span>לקוח התקשר בשעה 23:00 ואף אחד לא ענה</span>
+                      </div>
+                    </li>
+                    <li class="compare-item compare-item-danger">
+                      <span class="compare-dot" aria-hidden="true"></span>
+                      <div>
+                        <strong>וואטסאפ ללא מענה</strong>
+                        <span>3 הודעות ממתינות מאתמול בלילה</span>
+                      </div>
+                    </li>
+                    <li class="compare-item compare-item-danger">
+                      <span class="compare-dot" aria-hidden="true"></span>
+                      <div>
+                        <strong>לקוח עבר למתחרה</strong>
+                        <span>ליד חם שהתייאש וסגר במקום אחר</span>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="compare-panel-foot compare-panel-foot-danger">
+                    <strong>₪0</strong>
+                    <span>הכנסה מהשעות שאחרי הסגירה</span>
+                  </div>
+                </div>
+
+                <div class="compare-panel compare-panel-after" data-panel="after">
+                  <div class="compare-panel-head">
+                    <span class="compare-tag compare-tag-success">עם CallBot</span>
+                    <span class="compare-time">23:14</span>
+                  </div>
+                  <ul class="compare-list">
+                    <li class="compare-item compare-item-success">
+                      <span class="compare-dot" aria-hidden="true"></span>
+                      <div>
+                        <strong>הבוט ענה בוואטסאפ</strong>
+                        <span>מענה טבעי אוטומטי תוך שניות</span>
+                      </div>
+                    </li>
+                    <li class="compare-item compare-item-success">
+                      <span class="compare-dot" aria-hidden="true"></span>
+                      <div>
+                        <strong>ליד נסגר ואומת</strong>
+                        <span>פרטי הלקוח נשמרו ישירות ל-CRM</span>
+                      </div>
+                    </li>
+                    <li class="compare-item compare-item-success">
+                      <span class="compare-dot" aria-hidden="true"></span>
+                      <div>
+                        <strong>פגישה נקבעה ליומן</strong>
+                        <span>מחר בשעה 10:30, בלי מגע יד אדם</span>
+                      </div>
+                    </li>
+                  </ul>
+                  <div class="compare-panel-foot compare-panel-foot-success">
+                    <strong>שקט נפשי</strong>
+                    <span>העסק עובד גם כשאתה ישן</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section class="section pricing-preview reveal">
           <div class="container pricing-preview-inner">
             <div class="pricing-preview-copy">
@@ -183,6 +337,69 @@
                 </ul>
                 <a class="button button-primary" href="#demo-form">קבל הצעת מחיר</a>
               </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section faq-section reveal" id="faq" aria-labelledby="faq-title">
+          <div class="container faq-inner">
+            <div class="faq-head">
+              <span class="eyebrow">שאלות נפוצות</span>
+              <h2 id="faq-title">כל מה שרצית לדעת לפני שמתחילים</h2>
+            </div>
+            <div class="faq-list">
+              <details class="faq-item">
+                <summary>
+                  <span class="faq-question">זה נשמע כמו מענה קולי ממוחשב שמעצבן לקוחות. למה שמישהו ירצה לדבר עם זה?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-answer">
+                  <p>
+                    חד משמעית לא. ה-Voice AI שלנו לא קשור למענים הקוליים הישנים של פעם
+                    ("לחץ 1 למכירות"). הוא מדבר בעברית טבעית לחלוטין, קולח, עושה הפסקות
+                    נשימה, מבין סלנג, ויודע לנהל שיחה אמיתית ומכבדת עם הלקוח שלך כאילו עכשיו
+                    מזכירה אנושית ענתה לו.
+                  </p>
+                </div>
+              </details>
+              <details class="faq-item">
+                <summary>
+                  <span class="faq-question">איך הבוט יודע לענות על שאלות ספציפיות על העסק שלי?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-answer">
+                  <p>
+                    לפני שאנחנו מריצים את המערכת, אנחנו יושבים איתך (או לומדים את העסק שלך
+                    לעומק) ומזינים לו את כל מה שצריך: מחירון, שעות פתיחה, סוגי השירותים,
+                    ואפילו איך אתה מעדיף שיסננו לך לידים. הוא עונה בדיוק לפי הכללים שלך.
+                  </p>
+                </div>
+              </details>
+              <details class="faq-item">
+                <summary>
+                  <span class="faq-question">מה קורה אם הלקוח שואל משהו שהבוט לא יודע?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-answer">
+                  <p>
+                    הבוט לעולם לא ימציא תשובות. במקרה נדיר כזה, הוא יודע להגיד בטבעיות שהוא
+                    יבדוק את העניין, אוטומטית מקפיץ הודעת וואטסאפ אליך עם כל הפרטים של הלקוח,
+                    ומעדכן אותך שצריך לחזור אליו דחוף.
+                  </p>
+                </div>
+              </details>
+              <details class="faq-item">
+                <summary>
+                  <span class="faq-question">כמה זמן לוקח לחבר את זה לעסק שלי?</span>
+                  <span class="faq-icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq-answer">
+                  <p>
+                    מרגע שאנחנו מאפיינים את הצרכים שלך, המערכת עולה לאוויר תוך ימים ספורים.
+                    אין צורך בידע טכני מצידך. אנחנו מקימים הכל מאפס עד שהכל עובד חלק.
+                  </p>
+                </div>
+              </details>
             </div>
           </div>
         </section>
