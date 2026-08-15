@@ -155,8 +155,34 @@ const initRoadmap = () => {
     const isMobileRoadmap = window.matchMedia("(max-width: 900px)").matches;
 
     if (isMobileRoadmap) {
-      nodes.forEach((node) => node.classList.add("is-active"));
-      setPathProgress(1);
+      let ticking = false;
+
+      const updateMobileRoadmap = () => {
+        ticking = false;
+
+        const rect = section.getBoundingClientRect();
+        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+        const travel = rect.height + viewportHeight;
+        const scrolled = viewportHeight - rect.top;
+        const progress = Math.min(1, Math.max(0, scrolled / travel));
+        const stageIndex = Math.min(stages.length - 1, Math.floor(progress * stages.length));
+
+        setPathProgress(progress);
+        setStage(stageIndex);
+      };
+
+      const requestMobileUpdate = () => {
+        if (ticking) {
+          return;
+        }
+
+        ticking = true;
+        window.requestAnimationFrame(updateMobileRoadmap);
+      };
+
+      window.addEventListener("scroll", requestMobileUpdate, { passive: true });
+      window.addEventListener("resize", requestMobileUpdate, { passive: true });
+      updateMobileRoadmap();
       return;
     }
 
