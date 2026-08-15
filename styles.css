@@ -2289,3 +2289,378 @@ details p {
     grid-template-columns: 0.95fr 1.05fr;
   }
 }
+
+/* Dark luxury / cyber blue theme overrides */
+:root {
+  --bg-primary: #050b14;
+  --bg-secondary: #0a1424;
+  --bg-card: rgba(13, 27, 48, 0.72);
+  --bg-card-strong: rgba(8, 18, 34, 0.92);
+  --border-glow: rgba(0, 195, 255, 0.28);
+  --accent-cyan: #00f0ff;
+  --accent-blue: #0077ff;
+  --accent: var(--accent-cyan);
+  --primary: var(--accent-blue);
+  --panel: var(--bg-card-strong);
+  --panel-soft: var(--bg-card);
+  --border: var(--border-glow);
+  --text: #ffffff;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --muted: var(--text-muted);
+  --gradient: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  --glow-shadow: 0 0 25px rgba(0, 240, 255, 0.15);
+}
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: var(--bg-primary) !important;
+  color: var(--text-main) !important;
+}
+
+body {
+  background:
+    radial-gradient(circle at 50% -10%, rgba(0, 119, 255, 0.14), transparent 34rem),
+    radial-gradient(circle at 10% 24%, rgba(0, 240, 255, 0.08), transparent 26rem),
+    radial-gradient(circle at 92% 58%, rgba(0, 119, 255, 0.1), transparent 30rem),
+    var(--bg-primary) !important;
+}
+
+body::before {
+  position: fixed;
+  inset-block-start: -220px;
+  inset-inline-start: 50%;
+  z-index: 0;
+  width: min(860px, 120vw);
+  height: 440px;
+  background: radial-gradient(circle, rgba(0, 119, 255, 0.16), rgba(5, 11, 20, 0) 70%);
+  transform: translateX(-50%);
+  content: "";
+  pointer-events: none;
+}
+
+body::after {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+  background-size: 88px 88px;
+  mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 72%);
+  content: "";
+  pointer-events: none;
+}
+
+.site-main,
+section,
+header,
+footer,
+.hero,
+.roadmap-section,
+.roadmap-section.is-pinned,
+.roadmap-section.is-pinned .roadmap-sticky,
+.roadmap-sticky,
+.pricing-preview,
+.final-cta,
+.footer,
+.compact-shell {
+  position: relative;
+  z-index: 1;
+  background-color: transparent !important;
+}
+
+.hero,
+.roadmap-section,
+.pricing-preview,
+.final-cta,
+.footer {
+  background:
+    radial-gradient(circle at 82% 10%, rgba(0, 240, 255, 0.1), transparent 28rem),
+    radial-gradient(circle at 14% 76%, rgba(0, 119, 255, 0.12), transparent 30rem),
+    var(--bg-primary) !important;
+}
+
+.hero-card {
+  color: var(--text-main) !important;
+}
+
+.hero-card-shape {
+  background:
+    radial-gradient(circle at 28% 16%, rgba(0, 240, 255, 0.34), transparent 20rem),
+    linear-gradient(145deg, rgba(0, 119, 255, 0.86), rgba(0, 240, 255, 0.34)) !important;
+  opacity: 0.54;
+  filter: blur(1px);
+}
+
+.nav,
+.hero-card-links,
+.pricing-card,
+.price-card,
+.pricing-preview-card,
+.card,
+.included-list,
+.comparison-grid > *,
+.next-steps > *,
+.lead-form,
+.final-cta-inner,
+.pricing-preview-inner {
+  border: 1px solid var(--border-glow) !important;
+  background:
+    linear-gradient(180deg, rgba(13, 27, 48, 0.82), rgba(5, 11, 20, 0.72)),
+    var(--bg-card) !important;
+  box-shadow:
+    var(--glow-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(12px);
+}
+
+.pricing-card,
+.price-card,
+.pricing-preview-card,
+.card,
+.included-list,
+.comparison-grid > *,
+.next-steps > * {
+  border-radius: 16px !important;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.pricing-card:hover,
+.price-card:hover,
+.pricing-preview-card:hover,
+.card:hover,
+.comparison-grid > *:hover,
+.next-steps > *:hover {
+  border-color: rgba(0, 240, 255, 0.75) !important;
+  box-shadow:
+    0 0 35px rgba(0, 240, 255, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+  transform: translateY(-4px);
+}
+
+.hero-card-links {
+  color: var(--text-main) !important;
+}
+
+.hero-card-links a,
+.footer-links a {
+  color: var(--text-main) !important;
+}
+
+.hero-badge,
+.roadmap-link {
+  border: 1px solid rgba(0, 240, 255, 0.22) !important;
+  background: rgba(0, 240, 255, 0.08) !important;
+  color: var(--text-main) !important;
+  box-shadow: 0 0 22px rgba(0, 240, 255, 0.1);
+}
+
+.hero h1,
+.hero-subtitle,
+.roadmap-title,
+.roadmap-description,
+.roadmap-kicker,
+.pricing-preview-copy,
+.pricing-preview-copy h2,
+.final-cta h2,
+.final-cta p,
+.pricing-hero,
+.thank-you,
+.price-card,
+.included-list,
+.comparison,
+.faq,
+.footer {
+  color: var(--text-main) !important;
+}
+
+p,
+li,
+label,
+.pricing-period,
+.pricing-features,
+.footer-links,
+.hero-subtitle,
+.roadmap-description,
+.roadmap-kicker {
+  color: var(--text-muted) !important;
+}
+
+.eyebrow,
+.pricing-label,
+.badge-tag {
+  color: var(--accent-cyan) !important;
+}
+
+.badge-tag {
+  background: rgba(0, 240, 255, 0.12) !important;
+  box-shadow: inset 0 0 0 1px rgba(0, 240, 255, 0.25);
+}
+
+input,
+select,
+textarea {
+  min-width: 0;
+  border: 1px solid rgba(0, 195, 255, 0.24) !important;
+  border-radius: 10px !important;
+  background-color: rgba(5, 11, 20, 0.86) !important;
+  color: var(--text-main) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+  font-size: 16px !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(148, 163, 184, 0.72);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow:
+    0 0 0 3px rgba(0, 240, 255, 0.12),
+    0 0 18px rgba(0, 240, 255, 0.24) !important;
+  outline: none;
+}
+
+button,
+.button,
+.btn,
+a[class*="btn"] {
+  border: none !important;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan)) !important;
+  color: #050b14 !important;
+  box-shadow: 0 4px 20px rgba(0, 195, 255, 0.38) !important;
+  font-weight: 800 !important;
+  transition:
+    transform 180ms ease,
+    filter 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+button:hover,
+.button:hover,
+.btn:hover,
+a[class*="btn"]:hover {
+  filter: brightness(1.12);
+  box-shadow: 0 6px 28px rgba(0, 240, 255, 0.58) !important;
+  transform: translateY(-2px);
+}
+
+.nav-toggle {
+  border: 1px solid rgba(0, 240, 255, 0.24) !important;
+  background: rgba(5, 11, 20, 0.88) !important;
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.16) !important;
+}
+
+.nav-toggle span {
+  background: var(--accent-cyan) !important;
+}
+
+.hero-robot-wrap::before {
+  background:
+    radial-gradient(circle at 46% 42%, rgba(0, 240, 255, 0.3), transparent 36%),
+    radial-gradient(circle, rgba(0, 119, 255, 0.28), transparent 62%) !important;
+  filter: blur(34px);
+}
+
+.hero-robot-wrap::after {
+  background: rgba(0, 240, 255, 0.12) !important;
+}
+
+.hero-robot-image {
+  filter:
+    drop-shadow(0 30px 42px rgba(0, 0, 0, 0.36))
+    drop-shadow(0 0 34px rgba(0, 240, 255, 0.22)) !important;
+}
+
+.roadmap-track {
+  stroke: rgba(0, 240, 255, 0.12) !important;
+}
+
+.roadmap-progress,
+svg path,
+.path-line {
+  stroke: var(--accent-cyan) !important;
+  filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.75));
+}
+
+.roadmap-node {
+  border-color: rgba(0, 195, 255, 0.22) !important;
+  background: rgba(13, 27, 48, 0.76) !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 14px 42px rgba(0, 0, 0, 0.34) !important;
+}
+
+.roadmap-node.is-active {
+  border-color: rgba(0, 240, 255, 0.82) !important;
+  background:
+    linear-gradient(145deg, rgba(0, 119, 255, 0.72), rgba(0, 240, 255, 0.24)),
+    rgba(13, 27, 48, 0.94) !important;
+  color: var(--text-main) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 0 1px rgba(0, 240, 255, 0.18),
+    0 0 34px rgba(0, 240, 255, 0.42),
+    0 24px 64px rgba(0, 0, 0, 0.46) !important;
+}
+
+@media (max-width: 900px) {
+  .container,
+  section {
+    max-width: 100%;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .hero {
+    padding-inline: 0 !important;
+  }
+
+  .hero-card {
+    min-height: auto;
+    padding-bottom: 24px;
+  }
+
+  .hero-card-body,
+  .pricing-preview-inner,
+  .final-cta-inner,
+  .roadmap-sticky {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-visual,
+  .hero-robot-wrap {
+    min-height: 340px;
+  }
+
+  .hero-robot-image {
+    width: min(92%, 330px);
+  }
+
+  .roadmap-section {
+    padding-inline: 0 !important;
+  }
+
+  .roadmap-sticky {
+    padding: 56px 16px 42px !important;
+  }
+
+  .roadmap-stage {
+    width: min(100%, 390px);
+    max-width: 100%;
+  }
+}
