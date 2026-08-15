@@ -17,10 +17,9 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="site-shell">
-      <main>
+    <main class="site-main">
         <section class="hero section">
-          <div class="hero-inner">
+          <div class="container hero-inner">
             <div class="hero-card reveal">
               <div class="hero-card-shape" aria-hidden="true"></div>
               <div class="hero-card-nav">
@@ -146,6 +145,7 @@
         </section>
 
         <section class="section pricing-preview reveal">
+          <div class="container pricing-preview-inner">
           <div class="pricing-preview-copy">
             <span class="eyebrow">מחירים</span>
             <h2>תמחור גמיש לפי שיחות אמיתיות</h2>
@@ -184,9 +184,9 @@
               <a class="button button-primary" href="#demo-form">קבל הצעת מחיר</a>
             </article>
           </div>
+          </div>
         </section>
-
-        <section class="section final-cta reveal" id="demo-form">
+          <div class="container final-cta-inner">
           <div>
             <span class="eyebrow">דמו קצר</span>
             <h2>רוצה לראות איך זה נשמע על העסק שלך?</h2>
@@ -208,10 +208,12 @@
             </label>
             <button class="button button-primary" type="submit">שלח פרטים</button>
           </form>
+          </div>
         </section>
       </main>
 
       <footer class="footer">
+        <div class="container footer-inner">
         <a class="logo" href="./index.html">
           <img class="logo-image" src="./assets/callbot-logo.png" alt="CallBot" />
           <span>CALLBOT</span>
@@ -222,8 +224,8 @@
           <a href="#">נגישות</a>
           <a href="#">LinkedIn</a>
         </div>
+        </div>
       </footer>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="./script.js"></script>
