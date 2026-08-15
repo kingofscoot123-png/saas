@@ -55,12 +55,12 @@ const initRoadmap = () => {
       cta: "התחל בדמו קצר",
     },
     {
-      title: "חוויית קול",
+      title: "חווית משתמש מתקדמת",
       description: "מעצבים שיחה טבעית בעברית שמרגישה אנושית, מקומית ומהירה.",
       cta: "שמע דוגמה",
     },
     {
-      title: "אוטומציה",
+      title: "אוטומציה מלאה",
       description: "השיחה הופכת לליד, תיאום וסיכום CRM בלי עבודה ידנית.",
       cta: "ראה את התהליך",
     },
@@ -82,6 +82,11 @@ const initRoadmap = () => {
   const getActivePath = () => {
     const isMobile = window.matchMedia("(max-width: 900px)").matches;
     return document.querySelector(isMobile ? ".roadmap-svg-mobile .roadmap-progress" : ".roadmap-svg-desktop .roadmap-progress");
+  };
+
+  const getStageIndex = (progress) => {
+    const thresholds = [0, 0.24, 0.5, 0.74];
+    return thresholds.reduce((activeIndex, threshold, index) => (progress >= threshold ? index : activeIndex), 0);
   };
 
   const setPathProgress = (progress) => {
@@ -160,10 +165,10 @@ const initRoadmap = () => {
 
         const rect = section.getBoundingClientRect();
         const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-        const travel = rect.height + viewportHeight;
-        const scrolled = viewportHeight - rect.top;
+        const travel = Math.max(1, rect.height - viewportHeight * 0.25);
+        const scrolled = viewportHeight * 0.35 - rect.top;
         const progress = Math.min(1, Math.max(0, scrolled / travel));
-        const stageIndex = Math.min(stages.length - 1, Math.floor(progress * stages.length));
+        const stageIndex = getStageIndex(progress);
 
         setPathProgress(progress);
         setStage(stageIndex);
@@ -211,7 +216,7 @@ const initRoadmap = () => {
     const roadmapTrigger = ScrollTrigger.create({
       trigger: section,
       start: "top top",
-      end: () => "+=2800",
+      end: () => `+=${Math.max(window.innerHeight * 3.2, 2400)}`,
       pin: sticky,
       pinSpacing: true,
       scrub: 0.65,
@@ -230,8 +235,8 @@ const initRoadmap = () => {
         section.classList.remove("is-pinned");
       },
       onUpdate: (self) => {
-        const progress = self.progress;
-        const stageIndex = Math.min(stages.length - 1, Math.floor(progress * stages.length));
+        const progress = Math.min(1, self.progress);
+        const stageIndex = getStageIndex(progress);
 
         setPathProgress(progress);
         setStage(stageIndex);
