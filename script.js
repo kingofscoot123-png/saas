@@ -154,6 +154,12 @@ const initRoadmap = () => {
 
     const isMobileRoadmap = window.matchMedia("(max-width: 900px)").matches;
 
+    if (isMobileRoadmap) {
+      nodes.forEach((node) => node.classList.add("is-active"));
+      setPathProgress(1);
+      return;
+    }
+
     gsap.to(".roadmap-ambient-one", {
       yPercent: 18,
       xPercent: -8,
@@ -180,22 +186,18 @@ const initRoadmap = () => {
 
     const roadmapTrigger = ScrollTrigger.create({
       trigger: section,
-      start: isMobileRoadmap ? "top 80%" : "top top",
-      end: () => (isMobileRoadmap ? "+=900" : "+=2800"),
-      pin: isMobileRoadmap ? false : sticky,
-      pinSpacing: !isMobileRoadmap,
+      start: "top top",
+      end: () => "+=2800",
+      pin: sticky,
+      pinSpacing: true,
       scrub: 0.65,
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onEnter: () => {
-        if (!isMobileRoadmap) {
-          section.classList.add("is-pinned");
-        }
+        section.classList.add("is-pinned");
       },
       onEnterBack: () => {
-        if (!isMobileRoadmap) {
-          section.classList.add("is-pinned");
-        }
+        section.classList.add("is-pinned");
       },
       onLeave: () => {
         section.classList.remove("is-pinned");

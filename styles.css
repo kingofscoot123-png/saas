@@ -2026,16 +2026,16 @@ details p {
     width: 100%;
     max-width: none;
     margin-inline: auto;
-    padding-inline: 12px;
+    padding-inline: 14px;
     min-height: auto;
-    padding-block: 48px 32px;
+    padding-block: 56px 42px;
     background: #f7f8fb;
   }
 
   .roadmap-copy {
     flex-shrink: 0;
     width: 100%;
-    max-width: 360px;
+    max-width: 390px;
   }
 
   .roadmap-copy .eyebrow {
@@ -2067,10 +2067,10 @@ details p {
   .roadmap-stage {
     flex: none;
     width: 100%;
-    max-width: 320px;
-    height: 320px;
-    min-height: 280px;
-    margin-block-start: 8px;
+    max-width: 380px;
+    height: min(108vw, 500px);
+    min-height: 410px;
+    margin-block-start: 14px;
   }
 
   .roadmap-svg-desktop {
@@ -2083,14 +2083,31 @@ details p {
 
   .roadmap-track,
   .roadmap-progress {
-    stroke-width: 20;
+    stroke-width: 24;
+  }
+
+  .roadmap-svg-mobile .roadmap-progress {
+    filter: drop-shadow(0 0 8px rgba(78, 205, 196, 0.45));
   }
 
   .roadmap-node {
-    width: 54px;
-    height: 54px;
-    border-radius: 14px;
-    font-size: 0.88rem;
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+    font-size: 0.95rem;
+    backdrop-filter: none;
+  }
+
+  .roadmap-node.is-active {
+    animation: none;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 0 1px rgba(78, 205, 196, 0.12),
+      0 14px 34px rgba(8, 12, 45, 0.18);
+  }
+
+  .roadmap-node::before {
+    display: none;
   }
 
   .roadmap-node-1 {
