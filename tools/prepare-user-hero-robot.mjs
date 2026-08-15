@@ -2,8 +2,57 @@ import sharp from "sharp";
 import path from "node:path";
 
 const source =
-  "C:\\Users\\Shaked\\.cursor\\projects\\c-Users-Shaked-saas\\assets\\c__Users_Shaked_AppData_Roaming_Cursor_User_workspaceStorage_2ea4513e1fa037f60ac7636b58172724_images_________-58370aa9-7211-4cef-b06b-171be66fe7f3.png";
+  "C:\\Users\\Shaked\\.cursor\\projects\\c-Users-Shaked-saas\\assets\\c__Users_Shaked_AppData_Roaming_Cursor_User_workspaceStorage_2ea4513e1fa037f60ac7636b58172724_images_Gemini_Generated_Image_iuesxgiuesxgiues-4555b0bf-7d1e-4420-987a-f3e3cdc822ea.png";
 const target = path.join("C:\\Users\\Shaked\\saas", "assets", "hero-robot-user-transparent.png");
+
+const sitePrimary = [91, 44, 130];
+const siteAccent = [78, 205, 196];
+const siteCyan = [0, 240, 255];
+
+const rgbToHsl = (r, g, b) => {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  if (max === min) return [0, 0, l];
+  const d = max - min;
+  const s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+  let h = 0;
+  if (max === r) h = (g - b) / d + (g < b ? 6 : 0);
+  else if (max === g) h = (b - r) / d + 2;
+  else h = (r - g) / d + 4;
+  return [h * 60, s, l];
+};
+
+const hslToRgb = (h, s, l) => {
+  const hue = ((h % 360) + 360) % 360 / 360;
+  if (s === 0) {
+    const v = Math.round(l * 255);
+    return [v, v, v];
+  }
+  const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+  const p = 2 * l - q;
+  const hue2rgb = (t) => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+  return [
+    Math.round(hue2rgb(hue + 1 / 3) * 255),
+    Math.round(hue2rgb(hue) * 255),
+    Math.round(hue2rgb(hue - 1 / 3) * 255),
+  ];
+};
+
+const isBrownHue = (h, s, l) => {
+  if (s < 0.1 || l < 0.12 || l > 0.9) return false;
+  return (h >= 0 && h <= 70) || h >= 330;
+};
 
 const { data, info } = await sharp(source)
   .ensureAlpha()
@@ -17,6 +66,7 @@ const white = [254, 254, 254];
 const lumOf = (r, g, b) => 0.299 * r + 0.587 * g + 0.114 * b;
 const chromaOf = (r, g, b) => Math.max(r, g, b) - Math.min(r, g, b);
 const distWhite = (r, g, b) => Math.hypot(r - white[0], g - white[1], b - white[2]);
+const mix = (from, to, amount) => Math.round(from * (1 - amount) + to * amount);
 
 const isBackdrop = (r, g, b, a) => {
   if (a < 8) return true;
@@ -24,6 +74,53 @@ const isBackdrop = (r, g, b, a) => {
   const lum = lumOf(r, g, b);
   const chroma = chromaOf(r, g, b);
   return distWhite(r, g, b) < 22 || (lum > 248 && chroma < 12);
+};
+
+const applySiteColors = (r, g, b, a) => {
+  if (a < 24) return [r, g, b];
+
+  const lum = lumOf(r, g, b);
+  const [h, s, l] = rgbToHsl(r, g, b);
+
+  if (lum < 28 || (r < 40 && g < 40 && b < 40 && s < 0.2)) {
+    return [r, g, b];
+  }
+
+  const warm = r > b + 6 && r >= g - 4 && (h <= 70 || h >= 330);
+  if (isBrownHue(h, s, l) || (warm && lum > 28 && lum < 235 && s > 0.06)) {
+    const targetHue = l < 0.38 ? 278 : 174;
+    const targetSat = l < 0.38 ? 0.46 : 0.4;
+    return hslToRgb(targetHue, targetSat, Math.min(0.78, l));
+  }
+
+  const isGlow = b > r + 20 && lum > 120;
+  if (isGlow) {
+    return [
+      mix(r, siteCyan[0], 0.55),
+      mix(g, siteCyan[1], 0.55),
+      mix(b, siteCyan[2], 0.55),
+    ];
+  }
+
+  const isBody = b >= r - 18 && lum > 95;
+  if (isBody) {
+    const amount = lum > 190 ? 0.22 : 0.32;
+    return [
+      mix(r, siteAccent[0], amount),
+      mix(g, siteAccent[1], amount),
+      mix(b, siteAccent[2], amount),
+    ];
+  }
+
+  if (b > r && lum > 70) {
+    return [
+      mix(r, siteAccent[0], 0.18),
+      mix(g, siteAccent[1], 0.18),
+      mix(b, siteAccent[2], 0.18),
+    ];
+  }
+
+  return [r, g, b];
 };
 
 const dirs4 = [
@@ -140,7 +237,11 @@ for (let i = 0; i < count; i += 1) {
     }
   }
 
-  if (touchesClear && lumOf(data[o], data[o + 1], data[o + 2]) > 150) {
+  let r = data[o];
+  let g = data[o + 1];
+  let b = data[o + 2];
+
+  if (touchesClear && lumOf(r, g, b) > 150) {
     let sr = 0;
     let sg = 0;
     let sb = 0;
@@ -159,12 +260,20 @@ for (let i = 0; i < count; i += 1) {
     }
     if (n > 0) {
       const blend = 0.65;
-      data[o] = Math.round(data[o] * (1 - blend) + (sr / n) * blend);
-      data[o + 1] = Math.round(data[o + 1] * (1 - blend) + (sg / n) * blend);
-      data[o + 2] = Math.round(data[o + 2] * (1 - blend) + (sb / n) * blend);
+      r = Math.round(r * (1 - blend) + (sr / n) * blend);
+      g = Math.round(g * (1 - blend) + (sg / n) * blend);
+      b = Math.round(b * (1 - blend) + (sb / n) * blend);
     }
   }
 
+  [r, g, b] = applySiteColors(r, g, b, a);
+  const [hh, ss, ll] = rgbToHsl(r, g, b);
+  if (isBrownHue(hh, ss, ll) || (r > b + 8 && r >= g && ss > 0.08 && ll > 0.14 && ll < 0.88)) {
+    [r, g, b] = hslToRgb(ll < 0.4 ? 278 : 174, 0.42, ll);
+  }
+  data[o] = r;
+  data[o + 1] = g;
+  data[o + 2] = b;
   data[o + 3] = a;
 }
 
@@ -207,9 +316,17 @@ for (let y = 0; y < check.info.height; y += 1) {
   }
 }
 
+let brownLeft = 0;
+for (let i = 0; i < check.data.length; i += 4) {
+  if (check.data[i + 3] < 40) continue;
+  const [h, s, l] = rgbToHsl(check.data[i], check.data[i + 1], check.data[i + 2]);
+  if (isBrownHue(h, s, l)) brownLeft += 1;
+}
+
 console.log({
   target,
   size: `${check.info.width}x${check.info.height}`,
   opaque,
   edgeFringe,
+  brownLeft,
 });
