@@ -152,6 +152,8 @@ const initRoadmap = () => {
   if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
 
+    const isMobileRoadmap = window.matchMedia("(max-width: 900px)").matches;
+
     gsap.to(".roadmap-ambient-one", {
       yPercent: 18,
       xPercent: -8,
@@ -178,18 +180,22 @@ const initRoadmap = () => {
 
     const roadmapTrigger = ScrollTrigger.create({
       trigger: section,
-      start: "top top",
-      end: () => (window.matchMedia("(max-width: 900px)").matches ? "+=1500" : "+=2800"),
-      pin: sticky,
-      pinSpacing: true,
+      start: isMobileRoadmap ? "top 80%" : "top top",
+      end: () => (isMobileRoadmap ? "+=900" : "+=2800"),
+      pin: isMobileRoadmap ? false : sticky,
+      pinSpacing: !isMobileRoadmap,
       scrub: 0.65,
       anticipatePin: 1,
       invalidateOnRefresh: true,
       onEnter: () => {
-        section.classList.add("is-pinned");
+        if (!isMobileRoadmap) {
+          section.classList.add("is-pinned");
+        }
       },
       onEnterBack: () => {
-        section.classList.add("is-pinned");
+        if (!isMobileRoadmap) {
+          section.classList.add("is-pinned");
+        }
       },
       onLeave: () => {
         section.classList.remove("is-pinned");
@@ -218,22 +224,97 @@ const initRoadmap = () => {
 
 window.addEventListener("load", initRoadmap);
 
-const form = document.querySelector(".lead-form");
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/moeanejn";
 
-if (form) {
-  form.addEventListener("submit", (event) => {
-    const emailInput = form.querySelector('input[type="email"]');
-    const email = emailInput?.value.toLowerCase() || "";
-    const blockedDomains = ["gmail.com", "yahoo.com"];
-    const isBlocked = blockedDomains.some((domain) => email.endsWith(`@${domain}`));
+const handleLeadSubmit = async (event) => {
+  event.preventDefault();
 
-    if (isBlocked) {
-      event.preventDefault();
-      emailInput.setCustomValidity("נראה שזה אימייל פרטי. כדאי להזין אימייל עסקי כדי שנוכל להתאים את הדמו.");
-      emailInput.reportValidity();
-      emailInput.style.borderColor = "#FF6B6B";
-    } else {
-      emailInput?.setCustomValidity("");
+  const form = event.currentTarget;
+  const submitButton = form.querySelector('button[type="submit"]');
+  const nameInput = form.querySelector('input[name="name"]');
+  const emailInput = form.querySelector('input[type="email"]');
+  const name = nameInput?.value.trim() || "";
+  const email = emailInput?.value.trim() || "";
+
+  if (!name || !email) {
+    return;
+  }
+
+  const defaultLabel = submitButton?.textContent || "שלח";
+  submitButton?.setAttribute("disabled", "true");
+
+  if (submitButton) {
+    submitButton.textContent = "שולח...";
+  }
+
+  try {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Formspree request failed");
+    }
+
+    const params = new URLSearchParams({ name });
+    window.location.href = `./thanks.html?${params.toString()}`;
+  } catch {
+    if (submitButton) {
+      submitButton.textContent = defaultLabel;
+    }
+
+    submitButton?.removeAttribute("disabled");
+    window.alert("לא הצלחנו לשלוח את הפרטים. נסה שוב בעוד רגע.");
+  }
+};
+
+document.querySelectorAll(".lead-form").forEach((form) => {
+  form.addEventListener("submit", handleLeadSubmit);
+});
+
+const navToggle = document.querySelector(".nav-toggle");
+const heroNav = document.querySelector("#hero-nav");
+
+if (navToggle && heroNav) {
+  navToggle.addEventListener("click", () => {
+    const isOpen = heroNav.classList.toggle("is-open");
+    navToggle.setAttribute("aria-expanded", String(isOpen));
+    navToggle.setAttribute("aria-label", isOpen ? "סגור תפריט" : "פתח תפריט");
+  });
+
+  heroNav.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      heroNav.classList.remove("is-open");
+      navToggle.setAttribute("aria-expanded", "false");
+      navToggle.setAttribute("aria-label", "פתח תפריט");
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    if (
+      heroNav.classList.contains("is-open") &&
+      !heroNav.contains(event.target) &&
+      !navToggle.contains(event.target)
+    ) {
+      heroNav.classList.remove("is-open");
+      navToggle.setAttribute("aria-expanded", "false");
+      navToggle.setAttribute("aria-label", "פתח תפריט");
     }
   });
+}
+
+const thankYouHeading = document.querySelector(".thank-you h1");
+
+if (thankYouHeading) {
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get("name");
+
+  if (name) {
+    thankYouHeading.textContent = `תודה ${name}, קיבלנו את הפרטים שלך`;
+  }
 }

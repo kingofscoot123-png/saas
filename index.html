@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta
       name="description"
       content="AI AfterHours עונה לשיחות אחרי שעות הפעילות בעברית מדוברת, מסנן לידים ומתאם פגישות."
@@ -27,7 +27,18 @@
                 <a class="hero-card-logo" href="./index.html" aria-label="CALLBOT">
                   <img src="./assets/callbot-logo-transparent.png" alt="" />
                 </a>
-                <nav class="hero-card-links" aria-label="ניווט מהיר">
+                <button
+                  class="nav-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="hero-nav"
+                  aria-label="פתח תפריט"
+                >
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </button>
+                <nav class="hero-card-links" id="hero-nav" aria-label="ניווט מהיר">
                   <a href="./index.html">עמוד הבית</a>
                   <a href="#live-demo">דמו חי</a>
                   <a href="./pricing.html">מחירים</a>
@@ -46,7 +57,22 @@
                     Voice AI שמדבר כמו נציג ישראלי אמיתי, מבין סלנג, מסנן לידים ומתאם
                     פגישות ישירות ל-CRM שלך.
                   </p>
-                  <a class="button hero-cta" href="#demo-form">הזמן דמו של 15 דקות</a>
+                  <form
+                    class="hero-lead-form lead-form"
+                    action="https://formspree.io/f/moeanejn"
+                    method="POST"
+                    aria-label="טופס לידים"
+                  >
+                    <label>
+                      <span class="sr-only">שם מלא</span>
+                      <input type="text" name="name" placeholder="שם מלא" required autocomplete="name" />
+                    </label>
+                    <label>
+                      <span class="sr-only">אימייל</span>
+                      <input type="email" name="email" placeholder="name@company.co.il" required autocomplete="email" />
+                    </label>
+                    <button class="button hero-cta" type="submit">הזמן דמו של 15 דקות</button>
+                  </form>
                 </div>
 
                 <div class="hero-visual" id="live-demo" aria-label="דמו ויזואלי של CALLBOT">
@@ -166,21 +192,21 @@
             <h2>רוצה לראות איך זה נשמע על העסק שלך?</h2>
             <p>השאירו פרטים ונחזור לתיאום דמו של 15 דקות.</p>
           </div>
-          <form class="lead-form" action="./thanks.html">
+          <form
+            class="lead-form"
+            action="https://formspree.io/f/moeanejn"
+            method="POST"
+            aria-label="טופס לידים"
+          >
             <label>
               שם מלא
-              <input type="text" name="name" placeholder="מיכל ברק" required />
+              <input type="text" name="name" placeholder="מיכל ברק" required autocomplete="name" />
             </label>
             <label>
-              אימייל עסקי
-              <input type="email" name="email" placeholder="name@company.co.il" required />
-              <span class="field-note">כתובות Gmail/Yahoo יוצגו כלא מתאימות בדמו הפיתוח.</span>
+              אימייל
+              <input type="email" name="email" placeholder="name@company.co.il" required autocomplete="email" />
             </label>
-            <label>
-              טלפון
-              <input type="tel" name="phone" placeholder="0500000000" required />
-            </label>
-            <button class="button button-primary" type="submit">הזמן דמו של 15 דקות</button>
+            <button class="button button-primary" type="submit">שלח פרטים</button>
           </form>
         </section>
       </main>
