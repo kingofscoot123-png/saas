@@ -478,8 +478,14 @@ button {
   width: min(88%, 390px);
   height: auto;
   object-fit: contain;
-  filter:
-    drop-shadow(0 28px 38px rgba(0, 0, 0, 0.45));
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
 }
 
 .phone-card {
@@ -2605,8 +2611,7 @@ a[class*="btn"]:hover {
 }
 
 .hero-robot-image {
-  filter:
-    drop-shadow(0 30px 42px rgba(0, 0, 0, 0.45)) !important;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4)) !important;
 }
 
 .roadmap-track {
@@ -3452,8 +3457,13 @@ body {
   width: min(100%, 470px);
   height: auto;
   background: transparent;
-  filter:
-    drop-shadow(0 30px 44px rgba(0, 0, 0, 0.45));
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
 }
 
 @media (max-width: 900px) {
@@ -3999,17 +4009,36 @@ body {
 /* Critical polish fixes: solid hero robot, mobile timeline, footer logo, desktop CTA */
 .hero-robot-wrap {
   isolation: isolate;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+.hero-robot-wrap::before,
+.hero-robot-wrap::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  filter: none !important;
+  box-shadow: none !important;
 }
 
 .hero-robot-image {
-  width: min(100%, 520px) !important;
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: min(100%, 520px);
   max-height: min(72vh, 640px);
   object-fit: contain;
   background: transparent !important;
-  mix-blend-mode: normal;
-  isolation: isolate;
-  filter:
-    drop-shadow(0 22px 36px rgba(0, 0, 0, 0.5)) !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4)) !important;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .footer .logo-image,
@@ -4096,7 +4125,8 @@ body {
   }
 
   .hero-robot-image {
-    width: min(84vw, 340px) !important;
+    width: 100% !important;
+    max-width: min(84vw, 340px);
     max-height: 430px;
   }
 
